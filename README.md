@@ -1,11 +1,13 @@
+# Activity Schema
+
 This dbt package contains macros for building an [activity schema](https://www.activityschema.com). 
 
-It simplifies writing models to be used directly as an activity stream table, particularly if they need to be warehouse-independent
+It simplifies writing models to be used directly as an activity stream table, particularly if they need to be warehouse-independent.
 
 It follows the [v2.0](https://github.com/ActivitySchema/ActivitySchema/blob/main/2.0.md) version of the activity schema specification.
 
 
-### Usage
+## Usage
 
 Call the **make_activity** macro in your models to get the feature_json and activity occurrence columns. 
 
@@ -21,7 +23,7 @@ select * from {{ make_activity('final') }}
 
 <br>
 
-### Macros
+## Macros
 
 **make_activity** ([source](macros/make_activity.sql))
 This macro takes a cte name and adds the feature json and activity occurrence columns to it.
@@ -76,7 +78,7 @@ Builds the two activity occurrence columns, `activity_occurrence` and `activity_
 
 <br>
 
-### Resources:
+## Resources:
 - Activity schema [github page](https://github.com/ActivitySchema/ActivitySchema)
-- [Narrator] (https://www.narratordata.com)
-
+- Discussion on the activity schema [dbt slack](https://getdbt.slack.com/archives/modeling-activity-schema)
+- [Narrator](https://www.narratordata.com) - a service for maintaining & querying activity schemas
