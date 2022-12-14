@@ -2,9 +2,21 @@
 
 This dbt package contains macros for building an [activity schema](https://www.activityschema.com). 
 
-It simplifies writing models to be used directly as an activity stream table, particularly if they need to be warehouse-independent.
+The macros can help write models for use directly as activity stream tables, particularly if they need to be warehouse-independent.
 
-It follows the [v2.0](https://github.com/ActivitySchema/ActivitySchema/blob/main/2.0.md) version of the activity schema specification.
+It follows the v2.0 version of the activity schema specification.
+
+## Installation
+
+Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+
+Include this in your `packages.yml`
+
+```yaml
+packages:
+  - package: narratorai/activity_schema
+    version: [">=0.1.0", "<0.2.0"]
+```
 
 
 ## Usage
@@ -12,14 +24,26 @@ It follows the [v2.0](https://github.com/ActivitySchema/ActivitySchema/blob/main
 Call the **make_activity** macro in your models to get the feature_json and activity occurrence columns. 
 
 ```sql
-{{ config(features=['tag', 'subject']) }}
+{{ config(features=['subject', 'content']) }}
 
 with final as (
   ...
 )
 
-select * from {{ make_activity('final') }}
+select * from {{ activity_schema.make_activity('final') }}
 ```
+
+<br>
+
+### Warehouse Support
+
+Works on the following warehouses
+
+- Bigquery
+- Postgres
+- Redshift
+- Snowflake
+
 
 <br>
 
@@ -46,15 +70,15 @@ with final as (
     email as customer,
     null as anonymous_customer_id,
 
-    tag as tag,
-    subject as subject,
+    subject,
+    preview as content,
 
     null as link,
     null as revenue_impact
   from emails
 )
 
-select * from {{ make_activity('final') }}
+select * from {{ activity_schema.make_activity('final') }}
 
 ```
 
@@ -67,7 +91,7 @@ Helps build a warehouse-independent feature_json column. This works by taking a 
 This isn't really necessary if your model only targets a single warehouse. It might be easier to simply write your CTE with a feature_json directly, like so (e.g. for Redshift)
 
 ```sql
-object('tag', tag, 'subject', subject, 'content', preview ) as feature_json,
+object('subject', subject, 'content', preview ) as feature_json,
 ```
 
 
