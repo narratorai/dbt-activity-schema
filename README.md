@@ -2,10 +2,7 @@
 
 This dbt package contains macros for building an [activity schema](https://www.activityschema.com). 
 
-It simplifies writing models to be used directly as an activity stream table, particularly if they need to be warehouse-independent.
-
-It follows the [v2.0](https://github.com/ActivitySchema/ActivitySchema/blob/main/2.0.md) version of the activity schema specification.
-
+The macros can help write models for use directly as activity stream tables, particularly if they need to be warehouse-independent.
 
 ## Usage
 
@@ -18,8 +15,20 @@ with final as (
   ...
 )
 
-select * from {{ make_activity('final') }}
+select * from {{ activity_schema.make_activity('final') }}
 ```
+
+<br>
+
+### Warehouse Support
+
+Works on the following warehouses
+
+- Bigquery
+- Postgres
+- Redshift
+- Snowflake
+
 
 <br>
 
