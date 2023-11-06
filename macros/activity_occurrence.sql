@@ -4,6 +4,7 @@ row_number() over (
     partition by
         coalesce(
             {{ safe_cast("customer", type_string()) }},
+            {{ safe_cast("activity", type_string()) }},
             {{ safe_cast("anonymous_customer_id", type_string()) }}
         )
     order by ts asc, activity_id asc
@@ -12,6 +13,7 @@ lead(ts) over (
     partition by
         coalesce(
             {{ safe_cast("customer", type_string()) }},
+            {{ safe_cast("activity", type_string()) }},
             {{ safe_cast("anonymous_customer_id", type_string()) }}
         )
     order by ts asc, activity_id asc
